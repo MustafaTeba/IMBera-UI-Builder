@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 @Retention(RUNTIME)
 @Target(TYPE)
-public @interface Actions {
-	//IMBeraField basicInfo();
-	Action[] value();
+public @interface IMBeraOptions {
+	String[] values() default {};
+	Class<? extends ValuesContainer> valuesClass() default ValuesContainer.class;
 }

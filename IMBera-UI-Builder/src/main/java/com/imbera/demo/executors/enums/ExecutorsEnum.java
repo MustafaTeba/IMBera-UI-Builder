@@ -1,12 +1,12 @@
-package com.imbera.demo.enums;
+package com.imbera.demo.executors.enums;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.imbera.demo.executors.FieldExecutor;
-import com.imbera.demo.executors.fields.FullNameKeyUpExextutor;
-import com.imbera.demo.executors.fields.PostExextutor;
-import com.imbera.demo.executors.fields.SearchByIDExextutor;
+import com.imbera.demo.executors.fieldsExecutors.FullNameKeyUpExextutor;
+import com.imbera.demo.executors.fieldsExecutors.PostExextutor;
+import com.imbera.demo.executors.fieldsExecutors.SearchByIDExextutor;
 
 public enum ExecutorsEnum implements FieldExecutor {
 	
@@ -17,11 +17,11 @@ public enum ExecutorsEnum implements FieldExecutor {
 		}
 		@Override
 		public FieldsMap[] getFieldsToUpdate() {
-			return new FieldsMap[] {FieldsMap.fullNameTab2};
+			return new FieldsMap[] {FieldsMap.PayRollForm_employeeID};
 		}
 		@Override
 		public FieldsMap[] getFieldsToPost() {
-			return new FieldsMap[] {FieldsMap.fullNameTab1};
+			return new FieldsMap[] {FieldsMap.PayRollForm_employeeID};
 		}
 		@Override
 		public ExecutorType getExecutorType() {

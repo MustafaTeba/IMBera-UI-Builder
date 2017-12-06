@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface FieldSet {
-	String title() default "";
-	int colSize() default 12;
+	IMBeraField basicInfo();
 }

@@ -6,32 +6,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.imbera.demo.enums.ExecutorsEnum;
-import com.imbera.demo.enums.FieldsMap;
-import com.imbera.demo.executors.*;
+import com.imbera.demo.executors.enums.ExecutorsEnum;
+import com.imbera.demo.executors.enums.FieldsMap;
 
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface Number {
-	String title();
-
-	int colSize() default 12;
-
+	IMBeraField basicInfo();
 	String placeHolder() default "";
-
-	String description() default "";
-
 	String fieldAddonLeft() default "";
-
 	String fieldAddonRight() default "";
-
-	boolean noTitle() default false;
-
 	String validationMessage() default "";
-
-	boolean readOnly() default false;
-	
-	FieldsMap FieldsMap();
-
+	/**/
 	ExecutorsEnum[] Executors();
 }

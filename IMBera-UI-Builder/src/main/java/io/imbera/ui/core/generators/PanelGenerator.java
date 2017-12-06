@@ -11,12 +11,12 @@ import com.imbera.demo.screen.UIContainer;
 
 import io.imbera.ui.core.form.Panel;
 
-public class PanelGenerator implements FormDefinitionGenerator {
+public class PanelGenerator extends FormDefinitionGenerator {
 
 	@Override
 	public void generate(ObjectMapper mapper,ObjectNode fieldFormDefinition , UIContainer form, Field field) {
 		Panel annotation = field.getAnnotation(Panel.class);
-		buildBasicInfo(fieldFormDefinition, field.getName(),getAnnotationName() , annotation.title(),annotation.colSize());
+		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
 		Field[] panelFields = annotation.panelClass().getDeclaredFields();
 		/**/
 		UIContainer panelObject = prepareUIConatinersField(form, field) ;

@@ -1,4 +1,4 @@
-package com.imbera.demo.enums;
+package com.imbera.demo.executors.enums;
 
 public enum ExecutorType {
 	CLICK,

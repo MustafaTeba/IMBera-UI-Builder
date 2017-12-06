@@ -9,7 +9,7 @@ import com.imbera.demo.screen.UIContainer;
 import io.imbera.ui.core.form.Action;
 import io.imbera.ui.core.form.TextField;
 
-public class ActionFieldGenerator implements FormDefinitionGenerator {
+public class ActionFieldGenerator extends FormDefinitionGenerator {
 
 	@Override
 	public void generate(ObjectMapper mapper,ObjectNode fieldFormDefinition, UIContainer form , Field field) {

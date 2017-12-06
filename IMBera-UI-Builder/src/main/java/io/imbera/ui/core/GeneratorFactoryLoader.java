@@ -12,8 +12,7 @@ import io.imbera.ui.core.generators.FormDefinitionGenerator;
 import io.imbera.ui.core.logging.IMBeraLogger;
 
 final class GeneratorFactoryLoader {
-	private static final List<String> PACKAGESCAN = Stream
-			.of("io.imbera.ui.core.generators", "io.imbera.ui.addons.generators").collect(Collectors.toList());
+	private static final List<String> PACKAGESCAN = Stream.of("io.imbera.ui.core.generators", "io.imbera.ui.addons.generators").collect(Collectors.toList());
 	private static Reflections reflections = new Reflections(PACKAGESCAN);
 
 	void load() {
@@ -23,8 +22,7 @@ final class GeneratorFactoryLoader {
 	private void register(Class<? extends FormDefinitionGenerator> subType) {
 		try {
 			FormDefinitionGenerator formDefinitionGenerator = subType.newInstance();
-			FormDefinitionGeneratorFactory.getInstance().register(formDefinitionGenerator::getAnnotation,
-					formDefinitionGenerator);
+			FormDefinitionGeneratorFactory.getInstance().register(formDefinitionGenerator::getAnnotation,formDefinitionGenerator);
 		} catch (InstantiationException | IllegalAccessException e) {
 			IMBeraLogger.getLogger().error(ASF01, e);
 		}

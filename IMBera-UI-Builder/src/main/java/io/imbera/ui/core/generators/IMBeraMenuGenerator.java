@@ -12,7 +12,7 @@ import com.imbera.demo.screen.UIContainer;
 import io.imbera.ui.core.form.IMBeraFormDef;
 import io.imbera.ui.core.form.IMBeraMenuDef;
 
-public class IMBeraMenuGenerator implements FormDefinitionGenerator {
+public class IMBeraMenuGenerator extends FormDefinitionGenerator {
 
 	@Override
 	public void generate(ObjectMapper mapper,ObjectNode formDefinition,UIContainer form, Field field) {

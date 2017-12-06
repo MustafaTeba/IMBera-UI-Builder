@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface Tab {
-	String title();
-	int index();
+	IMBeraField basicInfo();
 	Class<? extends TabContainer> tabClass();
 }

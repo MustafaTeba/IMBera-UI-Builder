@@ -1,4 +1,4 @@
-package com.imbera.demo.executors.onLoad;
+package com.imbera.demo.executors.formsOnLoad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,36 +18,35 @@ public class InitExecutor extends AbstractOnloadExecutor{
 	public void doBussiness() {
 		payRollForm = (PayRollForm) form ;
 		payRollForm.setEmployeeID(10);
-		
+		//
+		/*
 		PersonalTabs tabs = new PersonalTabs();
 		PersonalTab1 tab1 = new PersonalTab1();
 		//
 		tabs.setPersonalTab1(tab1);
-		tab1.setFullName("dddddddddddd");
+		tab1.setEmployeeID(1111);
 		payRollForm.setPersonalTabs(tabs);
 		//
-		
-		/*List<TableRowContainer> personalTable = new ArrayList<>();
+		List<TableRowContainer> personalTable = new ArrayList<>();
 		PersonalTableRow personalTableRow = new PersonalTableRow();
-		personalTableRow.setFullName("Mostafa Teba");
-		
+		personalTableRow.setEmployeeID(10);
+		//
 		PersonalTableRow personalTableRow2 = new PersonalTableRow();
-		personalTableRow2.setFullName("Mostafa Teba");
-		
+		personalTableRow2.setEmployeeID(10);
+		//
 		PersonalTableRow personalTableRow3 = new PersonalTableRow();
-		personalTableRow3.setFullName("Mostafa Teba");
-		personalTableRow3.setGender("Male");
-		
+		personalTableRow3.setEmployeeID(10);
+		//
 		PersonalTableRow personalTableRow4 = new PersonalTableRow();
-		personalTableRow4.setFullName("Mostafa Teba");
-		
+		personalTableRow4.setEmployeeID(10);
+		//
 		personalTable.add(personalTableRow);
 		personalTable.add(personalTableRow2);
-		personalTable.add(personalTableRow3);
+		personalTable.add(personalTableRow3);s
 		personalTable.add(personalTableRow4);
-		
-		payRollForm.setPersonalTable(personalTable);*/
 		//
+		payRollForm.setPersonalTable(personalTable);
+		*/
 	}
 
 	

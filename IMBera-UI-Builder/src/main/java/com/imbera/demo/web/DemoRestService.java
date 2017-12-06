@@ -14,9 +14,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.imbera.demo.DTO.ExecutorDTO;
 import com.imbera.demo.DTO.FieldDTO;
-import com.imbera.demo.enums.ExecutorsEnum;
-import com.imbera.demo.enums.UIFormsEnum;
 import com.imbera.demo.executors.AbstractExecutor;
+import com.imbera.demo.executors.enums.ExecutorsEnum;
+import com.imbera.demo.executors.enums.UIFormsEnum;
 import com.imbera.demo.menu.MainMenu;
 import com.imbera.demo.menu.UIMenu;
 import com.imbera.demo.renderer.UiDemoRenderer;
@@ -74,7 +74,7 @@ public class DemoRestService {
 	public List<FieldDTO>  processAction(@RequestBody ExecutorDTO executorDTO){
 		try {
 			AbstractExecutor executor = ExecutorsEnum.getEnumByID(executorDTO.getId()).getExecutorClass().getConstructor().newInstance();
-			return executor.setExecutorDTO(executorDTO).doBussiness();
+			return executor.execute(executorDTO);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

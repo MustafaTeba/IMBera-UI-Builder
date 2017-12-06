@@ -2,53 +2,43 @@ package com.imbera.demo.screen;
 
 import java.io.Serializable;
 
-import com.imbera.demo.enums.ExecutorsEnum;
-import com.imbera.demo.enums.FieldsMap;
+import com.imbera.demo.executors.enums.FieldsMap;
 
-import io.imbera.ui.core.form.ComboBox;
+import io.imbera.ui.core.form.CheckBox;
+import io.imbera.ui.core.form.IMBeraField;
+import io.imbera.ui.core.form.IMBeraOptions;
 import io.imbera.ui.core.form.Index;
 import io.imbera.ui.core.form.PanelContainer;
-import io.imbera.ui.core.form.Tab;
 import io.imbera.ui.core.form.TextField;
 
 public class PersonalPanel  implements Serializable , PanelContainer{
 
 	private static final long serialVersionUID = -4515281198646980585L;
 
-	@Index(1)
-	@TextField(title = "Full Name",colSize = 3, placeHolder = "Enter ...", FieldsMap = FieldsMap.fullNamePanel, Executors = {ExecutorsEnum.FullNameKeyUpExextutor})
-	private String fullName;
+	@Index(value = 0)
+	@TextField(placeHolder = "Enter ID", Executors = {}, basicInfo = @IMBeraField(FieldsMap = FieldsMap.PersonalPanel_employeeID, title = "employeeID"))
+	private int employeeID;
 
-	@Index(2)
-	@TextField(title = "Email",colSize = 3, pattern = "^\\S+@\\S+$", FieldsMap = FieldsMap.mailPanel, Executors = {})
-	private String mail;
-	
-	@Index(3)
-	@ComboBox(title = "Gender",colSize = 3, values = { "Male", "Female" }, Executors = {  }, FieldsMap = FieldsMap.genderPanel)
-	private String gender;
+	@Index(value = 1)
+	@CheckBox(Executors = {}, 
+	basicInfo = @IMBeraField(FieldsMap = FieldsMap.PersonalPanel_checkBoxs, title = ""), 
+	options = @IMBeraOptions(values = {"111", "222", "333" }, valuesClass = GenderTitleMap.class))
+	private String checkBoxs;
 
-	public String getFullName() {
-		return fullName;
+	public int getEmployeeID() {
+		return employeeID;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setEmployeeID(int employeeID) {
+		this.employeeID = employeeID;
 	}
 
-	public String getMail() {
-		return mail;
+	public String getCheckBoxs() {
+		return checkBoxs;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setCheckBoxs(String checkBoxs) {
+		this.checkBoxs = checkBoxs;
 	}
 	
 	

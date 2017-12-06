@@ -14,18 +14,17 @@ import com.imbera.demo.screen.UIContainer;
 import io.imbera.ui.core.form.Tab;
 import io.imbera.ui.core.form.Tabs;
 
-public class TabGenerator implements FormDefinitionGenerator {
+public class TabGenerator extends FormDefinitionGenerator {
 
 	@Override
 	public void generate(ObjectMapper mapper,ObjectNode fieldFormDefinition,UIContainer form, Field field) {
 		Tab annotation = field.getAnnotation(Tab.class);
-		buildBasicInfo(fieldFormDefinition, field.getName(),getAnnotationName() , annotation.title(),12);
+		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
 		Field[] panelFields = annotation.tabClass().getDeclaredFields();
 		UIContainer tabObject = prepareUIConatinersField(form, field) ;
 		Map<Field, JsonNode> map = initFieldsFormDefinition(mapper, tabObject , panelFields);
 		ArrayNode tabNodes = mapper.createArrayNode();
 		map.entrySet().stream().forEach(nodesElement -> tabNodes.add(nodesElement.getValue()));
-		fieldFormDefinition.put("title", annotation.title());
 		fieldFormDefinition.set("fields", tabNodes);
 	}
 	

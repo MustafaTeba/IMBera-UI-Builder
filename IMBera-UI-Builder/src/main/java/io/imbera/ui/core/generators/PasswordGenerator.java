@@ -8,46 +8,27 @@ import com.imbera.demo.screen.UIContainer;
 
 import io.imbera.ui.core.form.Password;
 
-public class PasswordGenerator implements FormDefinitionGenerator {
+public class PasswordGenerator extends FormDefinitionGenerator {
 
 	@Override
 	public void generate(ObjectMapper mapper, ObjectNode fieldFormDefinition,UIContainer form, Field field) {
 		Password annotation = field.getAnnotation(Password.class);
 		
-		buildBasicInfo(fieldFormDefinition, field.getName(),getAnnotationName() , annotation.title(),annotation.colSize() ,annotation.FieldsMap().ordinal());
+		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
 		buildFieldsExecutors(mapper,fieldFormDefinition, annotation.Executors());
 		buildFieldValue(fieldFormDefinition, form, field);
-		
-		String description = annotation.description();
-		if (!description.isEmpty()) {
-			fieldFormDefinition.put("description", description);
-		}
-		
 		String fieldAddonLeft = annotation.fieldAddonLeft();
 		if (!fieldAddonLeft.isEmpty()) {
 			fieldFormDefinition.put("fieldAddonLeft", fieldAddonLeft);
 		}
-		
 		String fieldAddonRight = annotation.fieldAddonRight();
 		if (!fieldAddonRight.isEmpty()) {
 			fieldFormDefinition.put("fieldAddonRight", fieldAddonRight);
 		}
 		
-		String placeHolder = annotation.placeHolder();
-		if (!placeHolder.isEmpty()) {
-			fieldFormDefinition.put("placeholder", placeHolder);
-		}
-		boolean noTitle = annotation.noTitle();
-		if (noTitle) {
-			fieldFormDefinition.put("notitle", noTitle);
-		}
 		String validationMessage = annotation.validationMessage();
 		if (!validationMessage.isEmpty()) {
 			fieldFormDefinition.put("validationMessage", validationMessage);
-		}
-		boolean readOnly = annotation.readOnly();
-		if (readOnly) {
-			fieldFormDefinition.put("readonly", readOnly);
 		}
 	}
 

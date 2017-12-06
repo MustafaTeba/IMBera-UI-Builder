@@ -1,15 +1,12 @@
-package com.imbera.demo.enums;
+package com.imbera.demo.executors.enums;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.imbera.demo.screen.DemoForm2;
 import com.imbera.demo.screen.PayRollForm;;
 
 public enum UIFormsEnum {
-	DemoForm(PayRollForm.class),
-	DemoForm2(DemoForm2.class)
-	;
+	DemoForm(PayRollForm.class);
 	
 	Class clazz;
 	public Class getClazz() {

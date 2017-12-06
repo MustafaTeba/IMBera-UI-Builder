@@ -9,8 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface Table {
-	String title();
-	int index();
-	int colSize() default 12;
+	IMBeraField basicInfo();
 	Class<? extends TableRowContainer> rowClass();
 }

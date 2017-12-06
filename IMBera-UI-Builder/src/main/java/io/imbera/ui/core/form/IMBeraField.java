@@ -1,21 +1,21 @@
 package io.imbera.ui.core.form;
 
-import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.imbera.demo.executors.enums.ExecutorsEnum;
 import com.imbera.demo.executors.enums.FieldsMap;
 
 @Retention(RUNTIME)
-@Target(FIELD)
-public @interface ComboBox {
-	IMBeraField basicInfo();
-	IMBeraOptions options();
-	boolean multiple() default false;
+@Target(TYPE)
+public @interface IMBeraField {
+	String title();
+	String description() default "";
+	int colSize() default 12;
+	boolean readOnly() default false;
+	boolean required() default false;
 	/**/
 	FieldsMap FieldsMap();
-	ExecutorsEnum[] Executors();	
 }

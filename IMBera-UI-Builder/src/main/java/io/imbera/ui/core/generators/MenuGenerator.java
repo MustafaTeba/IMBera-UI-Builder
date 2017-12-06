@@ -13,7 +13,7 @@ import com.imbera.demo.screen.UIContainer;
 
 import io.imbera.ui.core.form.Menu;
 
-public class MenuGenerator implements FormDefinitionGenerator {
+public class MenuGenerator extends FormDefinitionGenerator {
 
 	@Override
 	public void generate(ObjectMapper mapper,ObjectNode fieldFormDefinition,UIContainer form, Field field) {

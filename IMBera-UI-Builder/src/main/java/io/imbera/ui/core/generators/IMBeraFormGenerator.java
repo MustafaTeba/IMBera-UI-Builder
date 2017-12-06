@@ -11,14 +11,14 @@ import com.imbera.demo.screen.UIContainer;
 
 import io.imbera.ui.core.form.IMBeraFormDef;
 
-public class IMBeraFormGenerator implements FormDefinitionGenerator {
+public class IMBeraFormGenerator extends FormDefinitionGenerator {
 
 	@Override
 	public void generate(ObjectMapper mapper,ObjectNode formDefinition,UIContainer form, Field field) {
 		IMBeraFormDef annotation = form.getClass().getAnnotation(IMBeraFormDef.class);
 		Field[] declaredFields = form.getClass().getDeclaredFields();
 		
-		formDefinition.put("title", annotation.title());
+		formDefinition.put(KEY_TITLE, annotation.title());
 		buildActionsFields(mapper, formDefinition, annotation.ActionsGroups());
 		
 		/**/
@@ -26,7 +26,7 @@ public class IMBeraFormGenerator implements FormDefinitionGenerator {
 		Map<Field, JsonNode> nodes = initFieldsFormDefinition(mapper,form, declaredFields);
 		Map<Field, JsonNode> sortedNodes = reorderFieldsBasedOnIndex(nodes);
 		sortedNodes.entrySet().stream().forEach(nodesElement -> fieldsDefinition.add(nodesElement.getValue()));
-		formDefinition.set("fields", fieldsDefinition);
+		formDefinition.set(KEY_FIELDS, fieldsDefinition);
 	}
 	
 	@Override

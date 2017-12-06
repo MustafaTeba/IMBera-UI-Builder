@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface Index {
-
 	int value() default Integer.MAX_VALUE;
 }

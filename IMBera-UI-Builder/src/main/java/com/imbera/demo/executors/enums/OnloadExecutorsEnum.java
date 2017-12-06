@@ -1,10 +1,10 @@
-package com.imbera.demo.executors;
+package com.imbera.demo.executors.enums;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.imbera.demo.executors.OnLoadExecutor;
-import com.imbera.demo.executors.onLoad.InitExecutor;;
+import com.imbera.demo.executors.formsOnLoad.InitExecutor;;
 
 public enum OnloadExecutorsEnum implements OnLoadExecutor{
 	

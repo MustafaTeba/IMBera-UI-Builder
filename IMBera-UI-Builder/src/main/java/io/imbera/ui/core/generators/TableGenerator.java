@@ -12,12 +12,12 @@ import com.imbera.demo.screen.UIContainer;
 
 import io.imbera.ui.core.form.Table;
 
-public class TableGenerator implements FormDefinitionGenerator {
+public class TableGenerator extends FormDefinitionGenerator {
 
 	@Override
 	public void generate(ObjectMapper mapper,ObjectNode fieldFormDefinition, UIContainer form,Field field) {
 		Table annotation = field.getAnnotation(Table.class);
-		buildBasicInfo(fieldFormDefinition, field.getName(),getAnnotationName() , annotation.title(),annotation.colSize());
+		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
 		// set Table Fields
 		Field[] panelFields = annotation.rowClass().getDeclaredFields();
 		Map<Field, JsonNode> map = initFieldsFormDefinition(mapper, null , panelFields);

@@ -8,13 +8,13 @@ import com.imbera.demo.screen.UIContainer;
 
 import io.imbera.ui.core.form.TextField;
 
-public class TextFieldGenerator implements FormDefinitionGenerator {
+public class TextFieldGenerator extends FormDefinitionGenerator {
 
 	@Override
 	public void generate(ObjectMapper mapper,ObjectNode fieldFormDefinition, UIContainer form , Field field) {
 		TextField annotation = field.getAnnotation(TextField.class);
 		
-		buildBasicInfo(fieldFormDefinition, field.getName(),getAnnotationName() , annotation.title(),annotation.colSize() , annotation.FieldsMap().ordinal());
+		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
 		buildFieldsExecutors(mapper,fieldFormDefinition, annotation.Executors());
 		buildFieldValue(fieldFormDefinition, form, field);
 		
@@ -27,9 +27,6 @@ public class TextFieldGenerator implements FormDefinitionGenerator {
 		if (annotation.maxLenght() != Integer.MAX_VALUE)
 			fieldFormDefinition.put("maxLenght", annotation.maxLenght());
 
-		if (!annotation.description().isEmpty())
-			fieldFormDefinition.put("description", annotation.description());
-
 		if (!annotation.fieldAddonLeft().isEmpty())
 			fieldFormDefinition.put("fieldAddonLeft", annotation.fieldAddonLeft());
 
@@ -39,14 +36,8 @@ public class TextFieldGenerator implements FormDefinitionGenerator {
 		if (!annotation.placeHolder().isEmpty())
 			fieldFormDefinition.put("placeHolder", annotation.placeHolder());
 
-		if (annotation.noTitle())
-			fieldFormDefinition.put("notitle", annotation.noTitle());
-
 		if (!annotation.validationMessage().isEmpty())
 			fieldFormDefinition.put("validationMessage", annotation.validationMessage());
-
-		if (annotation.readOnly())
-			fieldFormDefinition.put("readonly", annotation.readOnly());
 
 	}
 	

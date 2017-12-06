@@ -1,15 +1,12 @@
-package com.imbera.demo.executors.fields;
+package com.imbera.demo.executors.fieldsExecutors;
 
-import java.util.List;
-
-import com.imbera.demo.DTO.FieldDTO;
 import com.imbera.demo.executors.AbstractExecutor;
 
 public class FullNameKeyUpExextutor extends AbstractExecutor{
 
 
 	@Override
-	public List<FieldDTO>  doBussiness() {
+	public void doBussiness() {
 		//FieldDTO _fullName = postedFieldsMap.get(FieldsMap.fullName);
 		//
 		//FieldDTO email = fieldsToUpdateMap.get(FieldsMap.mail);
@@ -17,7 +14,6 @@ public class FullNameKeyUpExextutor extends AbstractExecutor{
 		//email.setValue(_fullName.getValue()+"@gmail.com");
 		//
 		//return new ArrayList<FieldDTO>(fieldsToUpdateMap.values());
-		return null;
 	}
 
 }

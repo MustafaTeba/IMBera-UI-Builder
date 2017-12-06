@@ -8,7 +8,7 @@ import com.imbera.demo.screen.UIContainer;
 
 import io.imbera.ui.core.form.ActionsGroup;
 
-public class ActionsGroupsGenerator implements FormDefinitionGenerator {
+public class ActionsGroupsGenerator extends FormDefinitionGenerator {
 
 	@Override
 	public void generate(ObjectMapper mapper,ObjectNode fieldFormDefinition, UIContainer form, Field field) {
