@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.imbera.demo.screen.UIContainer;
 
 import io.imbera.ui.core.form.Panel;
+import io.imbera.ui.core.form.PanelContainer;
 
 public class PanelGenerator extends FormDefinitionGenerator {
 
@@ -17,7 +18,8 @@ public class PanelGenerator extends FormDefinitionGenerator {
 	public void generate(ObjectMapper mapper,ObjectNode fieldFormDefinition , UIContainer form, Field field) {
 		Panel annotation = field.getAnnotation(Panel.class);
 		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
-		Field[] panelFields = annotation.panelClass().getDeclaredFields();
+		Class< ? extends PanelContainer> panelClass = (Class<? extends PanelContainer>) field.getType();
+		Field[] panelFields = panelClass.getDeclaredFields();
 		/**/
 		UIContainer panelObject = prepareUIConatinersField(form, field) ;
 		/**/

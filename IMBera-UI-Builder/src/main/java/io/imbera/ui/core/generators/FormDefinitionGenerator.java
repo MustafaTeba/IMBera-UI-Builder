@@ -18,13 +18,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.imbera.demo.executors.enums.ExecutorsEnum;
-import com.imbera.demo.executors.enums.FieldsMap;
+import com.imbera.demo.executors.AbstractExecutor;
 import com.imbera.demo.screen.UIContainer;
 
+import io.imbera.ui.core.ExecutorsRegisterFactory;
 import io.imbera.ui.core.FormDefinitionGeneratorFactory;
 import io.imbera.ui.core.form.Action;
 import io.imbera.ui.core.form.ActionsGroup;
+import io.imbera.ui.core.form.IMBeraExecutor;
 import io.imbera.ui.core.form.IMBeraField;
 import io.imbera.ui.core.form.IMBeraOptions;
 import io.imbera.ui.core.form.Index;
@@ -34,36 +35,40 @@ import io.imbera.ui.core.logging.IMBeraLogger;
 public abstract class FormDefinitionGenerator {
 
 	/**/
-	final static String KEY_IDENTIFER = "id";
+	//final static String KEY_IDENTIFER = "id";
 	final static String KEY_VALUE = "value";
 	final static String KEY_TITLE = "title";
 	final static String KEY_NAME = "name";
 	final static String KEY_TYPE = "type";
 	final static String KEY_FIELDS = "fields";
 	final static String KEY_OPTIONS = "options";
-	
+
 	/**/
 	final static String KEY_ACTIONS_GROUPS = "actionsGroups";
 	final static String KEY_ACTIONS = "actions";
 	final static String KEY_EXECUTORS = "executors";
+	final static String KEY_EXECUTOR = "executor";
 	final static String KEY_EXECUTOR_TYPE = "executorType";
-	final static String KEY_FIELDS_TO_POST = "fieldsToPost";
-	final static String KEY_FIELDS_TO_UPDATE = "fieldsToPost";
-	
+	final static String KEY_POST_AT = "postAt";
+	final static String KEY_UPDATE_AT = "updatAt";
+	final static String KEY_JS_ACTION = "jsAction";
+
 	/**/
 	final static String KEY_ON_CLICK = "onClick";
 	final static String KEY_TABS = "tabs";
 	final static String KEY_ITEMS = "items";
 	final static String KEY_COLSIZE = "colSize";
 	
-	
+	static Map<Class<? extends AbstractExecutor>,Integer> ActionMap = new HashMap<>();
+
 	public abstract void generate(ObjectMapper mapper, ObjectNode fieldFormDefinition, UIContainer form, Field field);
 
 	abstract public String getAnnotation();
+
 	abstract String getAnnotationName();
-	
-	void buildBasicInfo(ObjectNode fieldFormDefinition, Field field ,IMBeraField basicInfo) {
-		fieldFormDefinition.put(KEY_IDENTIFER, basicInfo.FieldsMap().ordinal());
+
+	void buildBasicInfo(ObjectNode fieldFormDefinition, Field field, IMBeraField basicInfo) {
+		//fieldFormDefinition.put(KEY_IDENTIFER, ++fieldId);
 		fieldFormDefinition.put(KEY_TYPE, getAnnotationName());
 		fieldFormDefinition.put(KEY_NAME, field.getName());
 		fieldFormDefinition.put(KEY_TITLE, basicInfo.title());
@@ -146,40 +151,42 @@ public abstract class FormDefinitionGenerator {
 		fieldFormDefinition.set(KEY_ACTIONS_GROUPS, actionsGroupsNode);
 	}
 
-	void buildActionsFields(ObjectMapper mapper, ObjectNode fieldFormDefinition, Action[] actions) {
+	void buildActionsFields(ObjectMapper mapper, ObjectNode fieldNode, Action[] actions) {
 		ArrayNode actionsNode = mapper.createArrayNode();
 		Arrays.stream(actions).forEach(action -> {
 			ObjectNode actionNode = mapper.createObjectNode();
 			buildActionFields(mapper, actionNode, action);
 			actionsNode.add(actionNode);
 		});
-		fieldFormDefinition.set(KEY_ACTIONS, actionsNode);
+		fieldNode.set(KEY_ACTIONS, actionsNode);
 	}
 
 	void buildActionFields(ObjectMapper mapper, ObjectNode actionNode, Action action) {
 		actionNode.put(KEY_TYPE, action.type().toString());
 		actionNode.put(KEY_TITLE, action.title());
-		actionNode.put(KEY_COLSIZE, action.colSize());
-		buildFieldsExecutors(mapper, actionNode, action.Executors());
+		actionNode.put(KEY_JS_ACTION, action.onClick_Functions());
+		buildFieldExecutors(mapper, actionNode, action.Executors());
 	}
 
-	void buildFieldsExecutors(ObjectMapper mapper, ObjectNode actionNode, ExecutorsEnum[] Executors) {
+	void buildFieldIMBeraExecutors(ObjectMapper mapper, ObjectNode fieldNode, IMBeraExecutor imberaExecutor){
+		fieldNode.set(KEY_POST_AT, getExecutorNodes(mapper, imberaExecutor.postedExecutors()));
+		fieldNode.set(KEY_UPDATE_AT, getExecutorNodes(mapper, imberaExecutor.updatedExecutors()));
+		buildActionsFields(mapper, fieldNode, imberaExecutor.actions());
+	}
+	void buildFieldExecutors(ObjectMapper mapper, ObjectNode actionNode, Class<? extends AbstractExecutor>[] executors) {
+		actionNode.set(KEY_EXECUTORS, getExecutorNodes(mapper, executors));
+	}
+	
+	ArrayNode getExecutorNodes(ObjectMapper mapper, Class<? extends AbstractExecutor>[] executors){
 		ArrayNode executorsNode = mapper.createArrayNode();
-		for (ExecutorsEnum executor : Executors) {
-			ObjectNode executorNode = mapper.createObjectNode();
-			executorNode.put(KEY_IDENTIFER, executor.ordinal());
-			executorNode.put(KEY_EXECUTOR_TYPE, executor.getExecutorType().toString());
-			ArrayNode fieldsNode = mapper.createArrayNode();
-			for (FieldsMap fieldMap : executor.getFieldsToPost()) {
-				ObjectNode fieldNode = mapper.createObjectNode();
-				fieldNode.put(KEY_IDENTIFER, fieldMap.ordinal());
-				fieldNode.put(KEY_NAME, fieldMap.toString());
-				fieldsNode.add(fieldNode);
-			}
-			executorNode.set(KEY_FIELDS_TO_POST, fieldsNode);
-			executorsNode.add(executorNode);
+		for (Class<? extends AbstractExecutor> executor : executors) {
+			ExecutorsRegisterFactory.getInstance().getExecutorID(executor).ifPresent(executorID -> {
+				ObjectNode executorNode = mapper.createObjectNode();
+				executorNode.put(KEY_EXECUTOR, executorID);
+				executorsNode.add(executorNode);
+			});
 		}
-		actionNode.set(KEY_EXECUTORS, executorsNode);
+		return executorsNode;
 	}
 
 	Map<Field, JsonNode> reorderFieldsBasedOnIndex(Map<Field, JsonNode> nodes) {
@@ -193,13 +200,14 @@ public abstract class FormDefinitionGenerator {
 				Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
 	}
-	
+
 	void buildOptionasValues(ObjectMapper mapper, ObjectNode fieldFormDefinition, Field field, IMBeraOptions options) {
 		ArrayNode optionsNode = mapper.createArrayNode();
 		Arrays.stream(options.values()).forEach(value -> buildOption(mapper, optionsNode, value, value));
 		if (!options.valuesClass().equals(ValuesContainer.class)) {
 			try {
-				(options.valuesClass()).newInstance().getValues().entrySet().stream().forEach(mapEntry -> buildOption(mapper, optionsNode, mapEntry.getKey(), mapEntry.getValue()));
+				(options.valuesClass()).newInstance().getValues().entrySet().stream()
+						.forEach(mapEntry -> buildOption(mapper, optionsNode, mapEntry.getKey(), mapEntry.getValue()));
 			} catch (InstantiationException | IllegalAccessException e) {
 				IMBeraLogger.getLogger().error(e.getMessage());
 				throw new RuntimeException(e);

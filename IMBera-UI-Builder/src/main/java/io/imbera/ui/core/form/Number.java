@@ -6,9 +6,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.imbera.demo.executors.enums.ExecutorsEnum;
-import com.imbera.demo.executors.enums.FieldsMap;
-
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface Number {
@@ -18,5 +15,5 @@ public @interface Number {
 	String fieldAddonRight() default "";
 	String validationMessage() default "";
 	/**/
-	ExecutorsEnum[] Executors();
+	IMBeraExecutor executor();
 }

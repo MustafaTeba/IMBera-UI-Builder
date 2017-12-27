@@ -3,21 +3,33 @@ package com.imbera.demo.DTO;
 import java.util.List;
 
 public class ExecutorDTO {
-
-	private int id;
-	private List<FieldDTO> fields;
+	private Integer executor;
+	private String className;
+	private List<FieldDTO> fieldsToPost;
+	private List<FieldDTO> fieldsToUpdate;
 	
-	public int getId() {
-		return id;
+	public Integer getExecutor() {
+		return executor;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setExecutor(Integer executor) {
+		this.executor = executor;
 	}
-	public List<FieldDTO> getFields() {
-		return fields;
+	public String getClassName() {
+		return className;
 	}
-	public void setFields(List<FieldDTO> fields) {
-		this.fields = fields;
+	public void setClassName(String className) {
+		this.className = className;
 	}
-	
+	public List<FieldDTO> getFieldsToPost() {
+		return fieldsToPost;
+	}
+	public void setFieldsToPost(List<FieldDTO> fieldsToPost) {
+		this.fieldsToPost = fieldsToPost;
+	}
+	public List<FieldDTO> getFieldsToUpdate() {
+		return fieldsToUpdate;
+	}
+	public void setFieldsToUpdate(List<FieldDTO> fieldsToUpdate) {
+		this.fieldsToUpdate = fieldsToUpdate;
+	}
 }

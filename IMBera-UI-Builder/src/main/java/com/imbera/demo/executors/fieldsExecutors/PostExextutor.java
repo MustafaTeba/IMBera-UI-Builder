@@ -8,7 +8,8 @@ public class PostExextutor extends AbstractExecutor{
 
 	@Override
 	public void  doBussiness() {
-		payRollForm = (PayRollForm) formsMap.get(PayRollForm.class);
+		payRollForm = (PayRollForm) form;
+		payRollForm.getPersonalPanel().setEmployeeID(1000);
 		payRollForm.setEmployeeID(payRollForm.getEmployeeID()+100);
 	}
 }

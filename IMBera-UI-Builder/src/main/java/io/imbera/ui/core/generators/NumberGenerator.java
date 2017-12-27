@@ -13,7 +13,8 @@ public class NumberGenerator extends FormDefinitionGenerator {
 	@Override
 	public void generate(ObjectMapper mapper, ObjectNode fieldFormDefinition,UIContainer form, Field field) {
 		Number annotation = field.getAnnotation(Number.class);
-		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());buildFieldsExecutors(mapper,fieldFormDefinition, annotation.Executors());
+		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
+		buildFieldIMBeraExecutors(mapper,fieldFormDefinition, annotation.executor());
 		buildFieldValue(fieldFormDefinition, form, field);
 		String fieldAddonLeft = annotation.fieldAddonLeft();
 		if (!fieldAddonLeft.isEmpty())

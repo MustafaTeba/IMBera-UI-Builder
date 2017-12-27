@@ -10,5 +10,4 @@ import java.lang.annotation.Target;
 @Target(FIELD)
 public @interface Panel {
 	IMBeraField basicInfo();
-	Class<? extends PanelContainer> panelClass();
 }

@@ -10,7 +10,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.imbera.demo.screen.UIContainer;
 
 import io.imbera.ui.core.form.Panel;
+import io.imbera.ui.core.form.PanelContainer;
 import io.imbera.ui.core.form.Tabs;
+import io.imbera.ui.core.form.TabsContainer;
 
 public class TabsGenerator extends FormDefinitionGenerator {
 
@@ -18,7 +20,9 @@ public class TabsGenerator extends FormDefinitionGenerator {
 	public void generate(ObjectMapper mapper,ObjectNode fieldFormDefinition , UIContainer form, Field field) {
 		Tabs annotation = field.getAnnotation(Tabs.class);
 		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
-		Field[] tabsFields = annotation.tabsClass().getDeclaredFields();
+		/**/
+		Class< ? extends TabsContainer> tabsClass = (Class<? extends TabsContainer>) field.getType();
+		Field[] tabsFields = tabsClass.getDeclaredFields();
 		/**/
 		UIContainer tabsObject = prepareUIConatinersField(form, field) ;
 		/**/

@@ -2,9 +2,12 @@ package com.imbera.demo.screen;
 
 import java.io.Serializable;
 
-import com.imbera.demo.executors.enums.FieldsMap;
+import com.imbera.demo.executors.fieldsExecutors.PostExextutor;
 
+import io.imbera.ui.core.enums.ActionType;
+import io.imbera.ui.core.form.Action;
 import io.imbera.ui.core.form.CheckBox;
+import io.imbera.ui.core.form.IMBeraExecutor;
 import io.imbera.ui.core.form.IMBeraField;
 import io.imbera.ui.core.form.IMBeraOptions;
 import io.imbera.ui.core.form.Index;
@@ -16,20 +19,33 @@ public class PersonalPanel  implements Serializable , PanelContainer{
 	private static final long serialVersionUID = -4515281198646980585L;
 
 	@Index(value = 0)
-	@TextField(placeHolder = "Enter ID", Executors = {}, basicInfo = @IMBeraField(FieldsMap = FieldsMap.PersonalPanel_employeeID, title = "employeeID"))
-	private int employeeID;
-
+	@TextField(
+			basicInfo = @IMBeraField(title = "employeeID", colSize = 3),
+			placeHolder = "Enter ID", 
+			executor = @IMBeraExecutor(actions = {@Action(Executors = {PostExextutor.class}, type = ActionType.OnSelect)},
+					postedExecutors = {PostExextutor.class},
+					updatedExecutors = {PostExextutor.class}
+					)
+	)
+	private Integer employeeID;
+	
 	@Index(value = 1)
-	@CheckBox(Executors = {}, 
-	basicInfo = @IMBeraField(FieldsMap = FieldsMap.PersonalPanel_checkBoxs, title = ""), 
-	options = @IMBeraOptions(values = {"111", "222", "333" }, valuesClass = GenderTitleMap.class))
+	@CheckBox(
+			basicInfo = @IMBeraField(title = "checkBoxs" , colSize = 3),
+			options = @IMBeraOptions(values = {"111", "222", "333" }, valuesClass = GenderTitleMap.class),
+			executor = @IMBeraExecutor(actions = {@Action(Executors = {PostExextutor.class}, type = ActionType.OnSelect)},
+					postedExecutors = {PostExextutor.class},
+					updatedExecutors = {PostExextutor.class}
+					)
+			
+	)
 	private String checkBoxs;
 
-	public int getEmployeeID() {
+	public Integer getEmployeeID() {
 		return employeeID;
 	}
 
-	public void setEmployeeID(int employeeID) {
+	public void setEmployeeID(Integer employeeID) {
 		this.employeeID = employeeID;
 	}
 
@@ -40,6 +56,5 @@ public class PersonalPanel  implements Serializable , PanelContainer{
 	public void setCheckBoxs(String checkBoxs) {
 		this.checkBoxs = checkBoxs;
 	}
-	
 	
 }

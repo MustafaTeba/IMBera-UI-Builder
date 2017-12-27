@@ -2,51 +2,95 @@ package com.imbera.demo.executors;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.imbera.demo.DTO.ExecutorDTO;
 import com.imbera.demo.DTO.FieldDTO;
-import com.imbera.demo.executors.enums.ExecutorsEnum;
-import com.imbera.demo.executors.enums.FieldsMap;
 import com.imbera.demo.screen.UIContainer;
 
 @Service
 public abstract class AbstractExecutor {
 
-	public Map<Class<? extends UIContainer>, UIContainer> formsMap = new HashMap<>();
+	public UIContainer form;
 	public abstract void doBussiness();
 
-	public List<FieldDTO> execute(ExecutorDTO executorDTO) {
-		ExecutorsEnum executor = ExecutorsEnum.getEnumByID(executorDTO.getId());
+	public void execute(ExecutorDTO executorDTO) {
+		List<FieldDTO> updateFields = new ArrayList<>();
 		try {
-			for (FieldsMap fieldMap : executor.getFieldsToUpdate()) {
-				Class<? extends UIContainer> fieldClazz = fieldMap.getClazz();
-				if (!formsMap.containsKey(fieldClazz))
-					formsMap.put(fieldClazz, (UIContainer) fieldClazz.newInstance());
-			}
-			for (FieldDTO field : executorDTO.getFields()) {
-				FieldsMap fieldMap = FieldsMap.getEnumByID(field.getId());
-				Class<? extends UIContainer> fieldClazz = FieldsMap.getEnumByID(field.getId()).getClazz();
-				if (!formsMap.containsKey(fieldClazz))
-					formsMap.put(fieldClazz, (UIContainer) fieldClazz.newInstance());
-				UIContainer UIForm = formsMap.get(fieldClazz);
-				Field declaredField = UIForm.getClass().getDeclaredField(fieldMap.getField().getName());
-				boolean accessible = declaredField.isAccessible();
-				declaredField.setAccessible(true);
-				declaredField.set(UIForm, valueConvertuer(declaredField, field.getValue()));
-				declaredField.setAccessible(accessible);
-			}
-		} catch (InstantiationException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-			// TODO Auto-generated catch block
+			form = (UIContainer) Class.forName(executorDTO.getClassName()).newInstance();
+			// Step 1
+			setFieldsValues(form, executorDTO.getFieldsToPost());
+			// Step 2
+			doBussiness();
+			// Step 3
+			getUpdatedFields(form, executorDTO.getFieldsToUpdate());
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		//
-		doBussiness();
-		return getUpdatedFields(executor.getFieldsToUpdate());
+	}
+
+	void setFieldsValues(UIContainer container, List<FieldDTO> fieldsToPost) {
+		for (FieldDTO field : fieldsToPost) {
+			List<String> path = Arrays.asList(field.getName().split("\\."));
+			Collections.reverse(path);
+			setFieldValue(container,path,0,field.getValue());
+		}
+	}
+
+	void setFieldValue(UIContainer container, List<String> path, int index ,String value) {
+		Field declaredField = null;
+		UIContainer newContainer = null;
+		try {
+			declaredField = container.getClass().getDeclaredField(path.get(index));
+			boolean accessible = declaredField.isAccessible();
+			if (path.size() - 1 == index) {
+				declaredField.setAccessible(true);
+				declaredField.set(container, valueConvertuer(declaredField, value));
+				declaredField.setAccessible(accessible);
+				return;
+			}
+			declaredField.setAccessible(true);
+			if (declaredField.get(container) == null) {
+				newContainer = (UIContainer) declaredField.getType().newInstance();
+				declaredField.set(container, newContainer);
+			}else{
+				newContainer = (UIContainer) declaredField.get(container);
+			}
+			declaredField.setAccessible(accessible);
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException
+				| InstantiationException e) {
+			e.printStackTrace();
+		}
+		setFieldValue(newContainer, path, ++index ,value);
+	}
+	
+	Object getFieldValue(UIContainer container, List<String> path, int index) {
+		Field declaredField = null;
+		UIContainer newContainer = null;
+		try {
+			declaredField = container.getClass().getDeclaredField(path.get(index));
+			boolean accessible = declaredField.isAccessible();
+			if (path.size() - 1 == index) {
+				declaredField.setAccessible(true);
+				Object value = declaredField.get(container);
+				declaredField.setAccessible(accessible);
+				return value;
+			}
+			declaredField.setAccessible(true);
+			if (declaredField.get(container) == null) {
+				return null;
+			}else{
+				newContainer = (UIContainer) declaredField.get(container);
+			}
+			declaredField.setAccessible(accessible);
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return getFieldValue(newContainer, path, ++index);
 	}
 
 	Object valueConvertuer(Field field, String value) {
@@ -56,29 +100,15 @@ public abstract class AbstractExecutor {
 		return value;
 	}
 
-	public List<FieldDTO> getUpdatedFields(FieldsMap[] fields) {
-		List<FieldDTO> fieldsDTO = new ArrayList<>();
-		try {
-			for (FieldsMap fieldMap : fields) {
-				Class<? extends UIContainer> fieldClazz = fieldMap.getClazz();
-				UIContainer UIForm = formsMap.get(fieldClazz);
-				Field declaredField = UIForm.getClass().getDeclaredField(fieldMap.getField().getName());
-				//
-				FieldDTO fieldDTO = new FieldDTO(fieldMap.ordinal(),fieldMap.toString());
-				//
-				boolean accessible = declaredField.isAccessible();
-				declaredField.setAccessible(true);
-				Integer value = (Integer) declaredField.get(UIForm) ;
-				declaredField.setAccessible(accessible);				
-				fieldDTO.setValue(value+"");
-				//
-				fieldsDTO.add(fieldDTO);
-			}
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public List<FieldDTO> getUpdatedFields(UIContainer container, List<FieldDTO> fieldsToUpdate) {
+		for (FieldDTO field : fieldsToUpdate) {
+			List<String> path = Arrays.asList(field.getName().split("\\."));
+			Collections.reverse(path);
+			Object value = getFieldValue(container, path, 0);
+			if(value != null)
+				field.setValue(value.toString());
 		}
-		return fieldsDTO;
+		return fieldsToUpdate;
 	}
 
 }

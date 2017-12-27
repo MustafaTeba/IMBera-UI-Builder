@@ -6,16 +6,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.imbera.demo.executors.enums.ExecutorsEnum;
-import com.imbera.demo.executors.enums.FieldsMap;
-
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface ComboBox {
 	IMBeraField basicInfo();
 	IMBeraOptions options();
-	boolean multiple() default false;
-	/**/
-	FieldsMap FieldsMap();
-	ExecutorsEnum[] Executors();	
+	IMBeraExecutor executor();
+	boolean multiple() default false;	
 }

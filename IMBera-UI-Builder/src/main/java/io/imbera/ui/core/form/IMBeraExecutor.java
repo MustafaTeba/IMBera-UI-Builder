@@ -6,12 +6,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import com.imbera.demo.executors.AbstractExecutor;
+
 @Retention(RUNTIME)
 @Target(TYPE)
-public @interface IMBeraField {
-	String title();
-	String description() default "";
-	int colSize() default 12;
-	boolean readOnly() default false;
-	boolean required() default false;
+public @interface IMBeraExecutor {
+	Action[] actions();
+	Class<? extends AbstractExecutor>[] updatedExecutors();
+	Class<? extends AbstractExecutor>[] postedExecutors();
 }

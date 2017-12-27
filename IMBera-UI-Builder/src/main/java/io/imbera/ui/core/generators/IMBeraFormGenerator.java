@@ -19,6 +19,7 @@ public class IMBeraFormGenerator extends FormDefinitionGenerator {
 		Field[] declaredFields = form.getClass().getDeclaredFields();
 		
 		formDefinition.put(KEY_TITLE, annotation.title());
+		formDefinition.put("className", form.getClass().getName());
 		buildActionsFields(mapper, formDefinition, annotation.ActionsGroups());
 		
 		/**/

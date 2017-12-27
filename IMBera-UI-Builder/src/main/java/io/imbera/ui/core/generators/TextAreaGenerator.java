@@ -15,7 +15,7 @@ public class TextAreaGenerator extends FormDefinitionGenerator {
 		TextArea annotation = field.getAnnotation(TextArea.class);
 		
 		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
-		buildFieldsExecutors(mapper,fieldFormDefinition, annotation.Executors());
+		buildFieldIMBeraExecutors(mapper,fieldFormDefinition, annotation.executor());
 		buildFieldValue(fieldFormDefinition, form, field);
 		String fieldAddonLeft = annotation.fieldAddonLeft();
 		if (!fieldAddonLeft.isEmpty()) {

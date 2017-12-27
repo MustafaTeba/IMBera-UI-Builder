@@ -15,7 +15,7 @@ public class PasswordGenerator extends FormDefinitionGenerator {
 		Password annotation = field.getAnnotation(Password.class);
 		
 		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
-		buildFieldsExecutors(mapper,fieldFormDefinition, annotation.Executors());
+		buildFieldIMBeraExecutors(mapper, fieldFormDefinition, annotation.executor());
 		buildFieldValue(fieldFormDefinition, form, field);
 		String fieldAddonLeft = annotation.fieldAddonLeft();
 		if (!fieldAddonLeft.isEmpty()) {

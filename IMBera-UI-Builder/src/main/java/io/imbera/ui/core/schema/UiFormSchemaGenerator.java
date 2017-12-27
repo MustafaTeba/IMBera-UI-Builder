@@ -42,9 +42,9 @@ public final class UiFormSchemaGenerator {
 	private void onLoadExecutors(UIContainer form){
 		Optional<IMBeraFormDef> IMBeraFormDef = Optional.ofNullable(form.getClass().getAnnotation(IMBeraFormDef.class));
 		IMBeraFormDef.ifPresent(formDef -> {
-			Arrays.stream(formDef.onLoadExecutors()).forEach(executor->{
+			Arrays.stream(formDef.onLoadExecutors()).forEach(executorClazz->{
 				try {
-					AbstractOnloadExecutor abstractOnloadExecutor = executor.getExecutorClass().getConstructor().newInstance();
+					AbstractOnloadExecutor abstractOnloadExecutor = executorClazz.getConstructor().newInstance();
 					abstractOnloadExecutor.setExecutorForm(form).doBussiness(); 
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException	| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 					e.printStackTrace();

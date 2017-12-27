@@ -19,7 +19,7 @@ public class TableGenerator extends FormDefinitionGenerator {
 		Table annotation = field.getAnnotation(Table.class);
 		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
 		// set Table Fields
-		Field[] panelFields = annotation.rowClass().getDeclaredFields();
+		Field[] panelFields = field.getClass().getDeclaredFields();
 		Map<Field, JsonNode> map = initFieldsFormDefinition(mapper, null , panelFields);
 		ArrayNode nodes = mapper.createArrayNode();
 		map.entrySet().stream().forEach(nodesElement -> nodes.add(nodesElement.getValue()));

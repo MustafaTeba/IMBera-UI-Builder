@@ -15,13 +15,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.imbera.demo.DTO.ExecutorDTO;
 import com.imbera.demo.DTO.FieldDTO;
 import com.imbera.demo.executors.AbstractExecutor;
-import com.imbera.demo.executors.enums.ExecutorsEnum;
 import com.imbera.demo.executors.enums.UIFormsEnum;
 import com.imbera.demo.menu.MainMenu;
 import com.imbera.demo.menu.UIMenu;
 import com.imbera.demo.renderer.UiDemoRenderer;
 import com.imbera.demo.screen.UIContainer;
 
+import io.imbera.ui.core.ExecutorsRegisterFactory;
 
 /**
  * REST controller for managing Ui.
@@ -32,16 +32,16 @@ public class DemoRestService {
 
 	@Autowired
 	private final UiDemoRenderer renderer;
-	
+
 	public DemoRestService(UiDemoRenderer renderer) {
 		this.renderer = renderer;
 	}
 
 	@RequestMapping("/test")
-	public String test(){
+	public String test() {
 		return "test";
 	}
-	
+
 	@CrossOrigin("http://localhost:8080")
 	@RequestMapping("/ui")
 	public ObjectNode renderUI(@RequestParam(value = "formID") Integer formID) throws JsonMappingException {
@@ -54,7 +54,7 @@ public class DemoRestService {
 		}
 		return null;
 	}
-	
+
 	@CrossOrigin("http://localhost:8080")
 	@RequestMapping("/menu")
 	public ObjectNode renderMenu() throws JsonMappingException {
@@ -68,17 +68,19 @@ public class DemoRestService {
 		}
 		return null;
 	}
-	
+
 	@CrossOrigin("http://localhost:8080")
-	@RequestMapping(value ="/processAction",method = RequestMethod.POST)
-	public List<FieldDTO>  processAction(@RequestBody ExecutorDTO executorDTO){
-		try {
-			AbstractExecutor executor = ExecutorsEnum.getEnumByID(executorDTO.getId()).getExecutorClass().getConstructor().newInstance();
-			return executor.execute(executorDTO);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	@RequestMapping(value = "/processAction", method = RequestMethod.POST)
+	public List<FieldDTO> processAction(@RequestBody ExecutorDTO executorDTO) {
+		ExecutorsRegisterFactory.getInstance().getExecutorClass(executorDTO.getExecutor())
+				.ifPresent(executorClass -> {
+					try {
+						executorClass.newInstance().execute(executorDTO);
+					} catch (InstantiationException | IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				});
+		return executorDTO.getFieldsToUpdate();
 	}
 }

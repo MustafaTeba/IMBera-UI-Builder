@@ -15,7 +15,7 @@ public class TextFieldGenerator extends FormDefinitionGenerator {
 		TextField annotation = field.getAnnotation(TextField.class);
 		
 		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
-		buildFieldsExecutors(mapper,fieldFormDefinition, annotation.Executors());
+		buildFieldIMBeraExecutors(mapper,fieldFormDefinition, annotation.executor());
 		buildFieldValue(fieldFormDefinition, form, field);
 		
 		if (!annotation.pattern().isEmpty())

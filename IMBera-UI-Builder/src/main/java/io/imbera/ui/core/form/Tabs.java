@@ -10,5 +10,4 @@ import java.lang.annotation.Target;
 @Target(FIELD)
 public @interface Tabs {
 	IMBeraField basicInfo();
-	Class<? extends TabsContainer> tabsClass();
 }

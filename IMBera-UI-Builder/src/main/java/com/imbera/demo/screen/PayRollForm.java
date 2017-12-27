@@ -1,32 +1,27 @@
 package com.imbera.demo.screen;
 
 import java.io.Serializable;
-import java.util.List;
 
-import com.imbera.demo.executors.enums.ExecutorsEnum;
-import com.imbera.demo.executors.enums.FieldsMap;
-import com.imbera.demo.executors.enums.OnloadExecutorsEnum;
+import com.imbera.demo.executors.fieldsExecutors.PostExextutor;
+import com.imbera.demo.executors.formsOnLoad.InitExecutor;
 
 import io.imbera.ui.core.enums.ActionType;
 import io.imbera.ui.core.form.Action;
 import io.imbera.ui.core.form.ActionsGroup;
 import io.imbera.ui.core.form.CheckBox;
+import io.imbera.ui.core.form.IMBeraExecutor;
 import io.imbera.ui.core.form.IMBeraField;
 import io.imbera.ui.core.form.IMBeraFormDef;
 import io.imbera.ui.core.form.IMBeraOptions;
 import io.imbera.ui.core.form.Index;
 import io.imbera.ui.core.form.Panel;
-import io.imbera.ui.core.form.PanelContainer;
-import io.imbera.ui.core.form.Table;
-import io.imbera.ui.core.form.TableRowContainer;
-import io.imbera.ui.core.form.Tabs;
-import io.imbera.ui.core.form.TabsContainer;
 import io.imbera.ui.core.form.TextField;
 
-@IMBeraFormDef(title = "PayRoll", onLoadExecutors = { OnloadExecutorsEnum.onLoadExextutor }, ActionsGroups = {
+@IMBeraFormDef(title = "PayRoll", onLoadExecutors = { InitExecutor.class }, 
+ActionsGroups = {
 		@ActionsGroup(actions = { 
 				@Action(title = "InitExextutor", type = ActionType.Button, Executors = {}),
-				@Action(title = "PostExextutor", type = ActionType.Button, Executors = { ExecutorsEnum.PostExextutor }),
+				@Action(title = "PostExextutor", type = ActionType.Button, Executors = {PostExextutor.class}),
 				@Action(title = "JS Executor", type = ActionType.Button, onClick_Functions = "ValidateForm", Executors = {}) 
 				}) 
 		}
@@ -36,45 +31,41 @@ public class PayRollForm implements Serializable, UIContainer {
 	/*---------0 : 99 -------------*/
 	@Index(value = 0)
 	@TextField(
-			basicInfo = @IMBeraField(FieldsMap = FieldsMap.PayRollForm_employeeID, title = "employeeID", colSize = 3),
-			placeHolder = "Enter ID",
-			Executors = {}
+			basicInfo = @IMBeraField(title = "employeeID", colSize = 3),
+			placeHolder = "Enter ID", 
+			executor = @IMBeraExecutor(actions = {@Action(Executors = {PostExextutor.class}, type = ActionType.OnKeyUp)},
+			postedExecutors = {PostExextutor.class},
+			updatedExecutors = {PostExextutor.class})
 	)
 	private Integer employeeID;
 	
 	@Index(value = 1)
 	@CheckBox(
-			Executors = {},
-			basicInfo = @IMBeraField(FieldsMap = FieldsMap.PayRollForm_checkBoxs, title = "checkBoxs" , colSize = 3),
-			options = @IMBeraOptions(values = {"111", "222", "333" }, valuesClass = GenderTitleMap.class)
-	)
+			basicInfo = @IMBeraField(title = "checkBoxs" , colSize = 3),
+			options = @IMBeraOptions(values = {"111", "222", "333" }, valuesClass = GenderTitleMap.class),
+			executor = @IMBeraExecutor(actions = {@Action(Executors = {PostExextutor.class}, type = ActionType.OnSelect)},postedExecutors = {PostExextutor.class},updatedExecutors = {PostExextutor.class}))
 	private String checkBoxs;
 
 	/*---------100 : 199 -------------*/
 	@Index(value = 100)
-	@Panel(
-			basicInfo = @IMBeraField(FieldsMap = FieldsMap.PayRollForm_personalPanel, title = "personalPanel"),
-			panelClass = PersonalPanel.class
-	)
-	private PanelContainer personalPanel;
+	@Panel(basicInfo = @IMBeraField(title = "personalPanel"))
+	private PersonalPanel personalPanel;
 
-	@Index(value = 101)
+	/*@Index(value = 101)
 	@Table(
-			basicInfo = @IMBeraField(FieldsMap = FieldsMap.PayRollForm_personalTable, title = "personalTable"), 
-			rowClass = PersonalTableRow.class
+			basicInfo = @IMBeraField(FieldsMap = FieldsMap.PayRollForm_personalTable, title = "personalTable")
 	)
-	private List<TableRowContainer> personalTable;
+	private List<PersonalTableRow> personalTable;*/
 
-	@Index(value = 102)
+	/*@Index(value = 102)
 	@Tabs(
-			basicInfo = @IMBeraField(FieldsMap = FieldsMap.PayRollForm_personalTable, title = "personalTable"), 
-			tabsClass = PersonalTabs.class
+			basicInfo = @IMBeraField(FieldsMap = FieldsMap.PayRollForm_personalTable, title = "personalTable")
 	)
-	private TabsContainer personalTabs;
+	private PersonalTabs personalTabs;*/
 
 	/*---------200 : 299 -------------*/
 	@Index(value = 200)
-	@Action(title = "validate email", type = ActionType.Button, Executors = {})
+	@Action(Executors = {}, title = "validateButton", type = ActionType.Button)
 	private String validateButton;
 
 	public Integer getEmployeeID() {
@@ -93,29 +84,29 @@ public class PayRollForm implements Serializable, UIContainer {
 		this.checkBoxs = checkBoxs;
 	}
 
-	public PanelContainer getPersonalPanel() {
+	public PersonalPanel getPersonalPanel() {
 		return personalPanel;
 	}
 
-	public void setPersonalPanel(PanelContainer personalPanel) {
+	public void setPersonalPanel(PersonalPanel personalPanel) {
 		this.personalPanel = personalPanel;
 	}
 
-	public List<TableRowContainer> getPersonalTable() {
+	/*public List<PersonalTableRow> getPersonalTable() {
 		return personalTable;
 	}
 
-	public void setPersonalTable(List<TableRowContainer> personalTable) {
+	public void setPersonalTable(List<PersonalTableRow> personalTable) {
 		this.personalTable = personalTable;
-	}
+	}*/
 
-	public TabsContainer getPersonalTabs() {
+	/*public PersonalTabs getPersonalTabs() {
 		return personalTabs;
 	}
 
-	public void setPersonalTabs(TabsContainer personalTabs) {
+	public void setPersonalTabs(PersonalTabs personalTabs) {
 		this.personalTabs = personalTabs;
-	}
+	}*/
 
 	public String getValidateButton() {
 		return validateButton;
@@ -124,6 +115,5 @@ public class PayRollForm implements Serializable, UIContainer {
 	public void setValidateButton(String validateButton) {
 		this.validateButton = validateButton;
 	}
-
 	
 }

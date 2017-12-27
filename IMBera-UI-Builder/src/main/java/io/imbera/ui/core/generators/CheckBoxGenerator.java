@@ -13,7 +13,7 @@ public class CheckBoxGenerator extends FormDefinitionGenerator {
 	public void generate(ObjectMapper mapper, ObjectNode fieldFormDefinition, UIContainer form, Field field) {
 		CheckBox annotation = field.getAnnotation(CheckBox.class);
 		buildBasicInfo(fieldFormDefinition, field, annotation.basicInfo());
-		buildFieldsExecutors(mapper, fieldFormDefinition, annotation.Executors());
+		buildFieldIMBeraExecutors(mapper, fieldFormDefinition, annotation.executor());
 		buildFieldValue(fieldFormDefinition, form, field);
 		buildOptionasValues(mapper, fieldFormDefinition, field, annotation.options());
 		fieldFormDefinition.put("multiple", annotation.multiple());
