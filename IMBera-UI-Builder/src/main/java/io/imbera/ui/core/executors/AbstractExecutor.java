@@ -1,4 +1,4 @@
-package com.imbera.demo.executors;
+package io.imbera.ui.core.executors;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -8,9 +8,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.imbera.demo.DTO.ExecutorDTO;
-import com.imbera.demo.DTO.FieldDTO;
 import com.imbera.demo.screen.UIContainer;
+
+import io.imbera.ui.dto.ExecutorDTO;
+import io.imbera.ui.dto.FieldDTO;
 
 @Service
 public abstract class AbstractExecutor {

@@ -1,4 +1,4 @@
-package com.imbera.demo.DTO;
+package io.imbera.ui.dto;
 
 import java.util.List;
 

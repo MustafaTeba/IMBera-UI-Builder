@@ -1,6 +1,6 @@
-package com.imbera.demo.executors.fieldsExecutors;
+package com.imbera.demo.fieldsExecutors;
 
-import com.imbera.demo.executors.AbstractExecutor;
+import io.imbera.ui.core.executors.AbstractExecutor;
 
 public class SearchByIDExextutor extends AbstractExecutor{
 

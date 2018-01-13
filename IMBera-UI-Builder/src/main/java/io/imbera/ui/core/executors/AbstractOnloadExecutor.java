@@ -1,4 +1,4 @@
-package com.imbera.demo.executors;
+package io.imbera.ui.core.executors;
 
 import org.springframework.stereotype.Service;
 

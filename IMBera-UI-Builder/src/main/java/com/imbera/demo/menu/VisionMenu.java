@@ -2,7 +2,7 @@ package com.imbera.demo.menu;
 
 import java.io.Serializable;
 
-import com.imbera.demo.executors.enums.UIFormsEnum;
+import com.imbera.demo.enums.UIFormsEnum;
 
 import io.imbera.ui.core.enums.MenuType;
 import io.imbera.ui.core.form.Menu;

@@ -1,14 +1,14 @@
-package com.imbera.demo.executors.formsOnLoad;
+package io.imbera.ui.core.executors.formsOnLoad;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.imbera.demo.executors.AbstractOnloadExecutor;
 import com.imbera.demo.screen.PayRollForm;
 import com.imbera.demo.screen.PersonalTab1;
 import com.imbera.demo.screen.PersonalTableRow;
 import com.imbera.demo.screen.PersonalTabs;
 
+import io.imbera.ui.core.executors.AbstractOnloadExecutor;
 import io.imbera.ui.core.form.TableRowContainer;
 
 public class InitExecutor extends AbstractOnloadExecutor{

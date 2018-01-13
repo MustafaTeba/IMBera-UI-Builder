@@ -12,16 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.imbera.demo.DTO.ExecutorDTO;
-import com.imbera.demo.DTO.FieldDTO;
-import com.imbera.demo.executors.AbstractExecutor;
-import com.imbera.demo.executors.enums.UIFormsEnum;
+import com.imbera.demo.enums.UIFormsEnum;
 import com.imbera.demo.menu.MainMenu;
 import com.imbera.demo.menu.UIMenu;
 import com.imbera.demo.renderer.UiDemoRenderer;
 import com.imbera.demo.screen.UIContainer;
 
 import io.imbera.ui.core.ExecutorsRegisterFactory;
+import io.imbera.ui.dto.ExecutorDTO;
+import io.imbera.ui.dto.FieldDTO;
 
 /**
  * REST controller for managing Ui.

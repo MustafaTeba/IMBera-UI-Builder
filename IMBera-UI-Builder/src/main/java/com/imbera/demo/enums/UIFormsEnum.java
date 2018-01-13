@@ -1,4 +1,4 @@
-package com.imbera.demo.executors.enums;
+package com.imbera.demo.enums;
 
 import java.util.HashMap;
 import java.util.Map;

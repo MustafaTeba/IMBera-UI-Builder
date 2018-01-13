@@ -3,7 +3,7 @@ package io.imbera.ui.core.form;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import com.imbera.demo.executors.AbstractOnloadExecutor;
+import io.imbera.ui.core.executors.AbstractOnloadExecutor;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IMBeraFormDef {

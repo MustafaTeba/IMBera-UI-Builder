@@ -2,7 +2,7 @@ package com.imbera.demo.screen;
 
 import java.io.Serializable;
 
-import com.imbera.demo.executors.fieldsExecutors.PostExextutor;
+import com.imbera.demo.fieldsExecutors.PostExextutor;
 
 import io.imbera.ui.core.enums.ActionType;
 import io.imbera.ui.core.form.Action;

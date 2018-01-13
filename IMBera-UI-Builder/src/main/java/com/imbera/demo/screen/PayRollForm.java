@@ -2,10 +2,10 @@ package com.imbera.demo.screen;
 
 import java.io.Serializable;
 
-import com.imbera.demo.executors.fieldsExecutors.PostExextutor;
-import com.imbera.demo.executors.formsOnLoad.InitExecutor;
+import com.imbera.demo.fieldsExecutors.PostExextutor;
 
 import io.imbera.ui.core.enums.ActionType;
+import io.imbera.ui.core.executors.formsOnLoad.InitExecutor;
 import io.imbera.ui.core.form.Action;
 import io.imbera.ui.core.form.ActionsGroup;
 import io.imbera.ui.core.form.CheckBox;
@@ -40,6 +40,16 @@ public class PayRollForm implements Serializable, UIContainer {
 	private Integer employeeID;
 	
 	@Index(value = 1)
+	@TextField(
+			basicInfo = @IMBeraField(title = "cv cx v", colSize = 3),
+			placeHolder = "Enter ID", 
+			executor = @IMBeraExecutor(actions = {@Action(Executors = {PostExextutor.class}, type = ActionType.OnKeyUp)},
+			postedExecutors = {PostExextutor.class},
+			updatedExecutors = {PostExextutor.class})
+	)
+	private Integer employeeID2;
+	
+	@Index(value = 2)
 	@CheckBox(
 			basicInfo = @IMBeraField(title = "checkBoxs" , colSize = 3),
 			options = @IMBeraOptions(values = {"111", "222", "333" }, valuesClass = GenderTitleMap.class),
@@ -115,5 +125,14 @@ public class PayRollForm implements Serializable, UIContainer {
 	public void setValidateButton(String validateButton) {
 		this.validateButton = validateButton;
 	}
+
+	public Integer getEmployeeID2() {
+		return employeeID2;
+	}
+
+	public void setEmployeeID2(Integer employeeID2) {
+		this.employeeID2 = employeeID2;
+	}
+	
 	
 }

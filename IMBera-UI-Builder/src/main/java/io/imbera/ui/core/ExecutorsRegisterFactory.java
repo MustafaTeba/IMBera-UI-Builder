@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.imbera.demo.executors.AbstractExecutor;
+import io.imbera.ui.core.executors.AbstractExecutor;
 
 public final class ExecutorsRegisterFactory {
 

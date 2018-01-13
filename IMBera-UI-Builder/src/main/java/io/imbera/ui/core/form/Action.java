@@ -3,9 +3,8 @@ package io.imbera.ui.core.form;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import com.imbera.demo.executors.AbstractExecutor;
-
 import io.imbera.ui.core.enums.ActionType;
+import io.imbera.ui.core.executors.AbstractExecutor;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Action {

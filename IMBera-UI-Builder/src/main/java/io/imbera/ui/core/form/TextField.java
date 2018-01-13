@@ -6,6 +6,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import io.imbera.ui.core.executors.AbstractExecutor;
+import io.imbera.ui.core.form.converter.IMBeraConverter;
+
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface TextField {
@@ -19,4 +22,7 @@ public @interface TextField {
 	String validationMessage() default "";
 	/**/
 	IMBeraExecutor executor();
+	//
+	//Class<? extends IMBeraConverter>[] updatedExecutors();
+	//Class<? extends AbstractExecutor>[] postedExecutors();
 }

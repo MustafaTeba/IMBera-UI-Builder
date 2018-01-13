@@ -8,8 +8,7 @@ import java.util.stream.Stream;
 
 import org.reflections.Reflections;
 
-import com.imbera.demo.executors.AbstractExecutor;
-
+import io.imbera.ui.core.executors.AbstractExecutor;
 import io.imbera.ui.core.generators.FormDefinitionGenerator;
 import io.imbera.ui.core.logging.IMBeraLogger;
 
@@ -17,7 +16,7 @@ final class GeneratorFactoryLoader {
 	private static final List<String> PACKAGESCAN_GENERATOR = Stream.of("io.imbera.ui.core.generators").collect(Collectors.toList());
 	private static Reflections reflections_generator = new Reflections(PACKAGESCAN_GENERATOR);
 	
-	private static final List<String> PACKAGESCAN_EXECUTORS = Stream.of("com.imbera.demo.executors").collect(Collectors.toList());
+	private static final List<String> PACKAGESCAN_EXECUTORS = Stream.of("com.imbera.demo.fieldsExecutors").collect(Collectors.toList());
 	private static Reflections reflections_Executors = new Reflections(PACKAGESCAN_EXECUTORS);
 	
 	void load() {
